@@ -1,0 +1,19 @@
+{
+  "Mac" : [
+
+  ],
+  "watchOS" : [
+
+  ],
+  "tvOS" : [
+
+  ],
+  "commitish" : "0.1.0",
+  "iOS" : [
+    {
+      "name" : "CalendarHeatmap",
+      "hash" : "ecf380ac9801713eb2d9979ba8f894cc75c268c0c8beb40759c7ae39c7ba89fb",
+      "swiftToolchainVersion" : "5.1.3 (swiftlang-1100.0.282.1 clang-1100.0.33.15)"
+    }
+  ]
+}
