@@ -17,19 +17,19 @@ struct SessionCard: View {
             HStack {
                 VStack {
                     Image(systemName: "stopwatch.fill")
-                    Text("1:20").font(.system(size: 25, weight: .bold))
+                    Text("-").font(.system(size: 25, weight: .bold))
                     Text("Time").font(.system(size: 15))
                 }
                 Spacer()
                 VStack {
                     Image(systemName: "heart.fill")
-                    Text("143").font(.system(size: 25, weight: .bold))
+                    Text("-").font(.system(size: 25, weight: .bold))
                     Text("HR").font(.system(size: 15))
                 }
                 Spacer()
                 VStack {
                     Image(systemName: "flame.fill")
-                    Text("164").font(.system(size: 25, weight: .bold))
+                    Text("-").font(.system(size: 25, weight: .bold))
                     Text("Cal").font(.system(size: 15))
                 }
             }

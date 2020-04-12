@@ -7,6 +7,8 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseFirestoreSwift
 
 struct Activity: Identifiable {
     var id = UUID()
@@ -15,8 +17,26 @@ struct Activity: Identifiable {
     var activity_length: String
 }
 
+class UserObject: ObservableObject {
+    @Published var UserFirstName: String
+    @Published var UserLastName: String
+    @Published var UserCoins: Int
+    
+    init(firstName: String, lastName: String, coins: Int){
+        UserFirstName = firstName
+        UserLastName = lastName
+        UserCoins = coins
+    }
+}
+
 struct ProfileDetailView: View {
     
+    @Binding var profile_detail_uid : String
+    
+    @State var UserFirstName : String = ""
+    @State var UserLastName : String = ""
+    @State var UserCoins : Int = 0
+
     let modelData: [Activity] =
         [Activity(day_no: 18, day_name: "FEB", activity_length: "1 Hour : 20 Minutes"),
         Activity(day_no: 17, day_name: "FEB", activity_length: "2 Hours : 5 Minutes"),
@@ -27,10 +47,9 @@ struct ProfileDetailView: View {
     @State private var showingCoinAlert = false
     
     var body: some View {
-        
         ScrollView {
             HStack(alignment: .bottom){
-                Text("James Orbell")
+                Text("\(UserFirstName) \(UserLastName)")
                     .fontWeight(.heavy)
                     .font(.largeTitle)
                 Spacer()
@@ -59,7 +78,7 @@ struct ProfileDetailView: View {
                 Button(action: {
                     self.showingCoinAlert = true
                 }) {
-                    Text("1945 Coins")
+                    Text("\(UserCoins) Coins")
                         .font(.headline)
                 }
                 .alert(isPresented: $showingCoinAlert) {
@@ -142,12 +161,30 @@ struct ProfileDetailView: View {
             GroupRow()
             
             .navigationBarTitle("Profile")
+        }.onAppear{
+            self.getUserData()
         }
     }
-}
+    
+    func getUserData(){
+        let db = Firestore.firestore()
 
-struct ProfileDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProfileDetailView()
+        db.collection("Users").document(self.profile_detail_uid).getDocument { (document, error) in
+            if let document = document, document.exists {
+               let firstName = document.get("FirstName") as! String
+               let lastName = document.get("LastName") as! String
+               let coins = document.get("Coins") as! Int
+
+                let userdata = UserObject(firstName: firstName, lastName: lastName, coins: coins)
+                self.UserFirstName = userdata.UserFirstName
+                self.UserLastName = userdata.UserLastName
+                self.UserCoins = userdata.UserCoins
+
+            } else {
+               print("Document does not exist")
+
+            }
+        }
     }
+    
 }

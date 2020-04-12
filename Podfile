@@ -20,6 +20,7 @@ target 'GYMT' do
 pod 'Firebase/Analytics'
 # add pods for any other desired Firebase products
 pod 'Firebase/Firestore'
+pod 'FirebaseFirestoreSwift'
 pod 'Firebase/Auth'
 # https://firebase.google.com/docs/ios/setup#available-pods
 

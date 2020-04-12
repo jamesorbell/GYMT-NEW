@@ -9,10 +9,13 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseFirestoreSwift
 
 struct HomeView: View {
     
     @State var show = false
+    @State private var profile_detail_uid : String = Auth.auth().currentUser!.uid
     
     var body: some View {
         
@@ -45,7 +48,7 @@ struct HomeView: View {
             .navigationBarItems(trailing:
                 HStack {
                     
-                    NavigationLink(destination: ProfileDetailView()){
+                    NavigationLink(destination: ProfileDetailView(profile_detail_uid: self.$profile_detail_uid)){
                         Image(systemName: "person.crop.circle.fill")
                         .font(.largeTitle)
                             .foregroundColor(Color(UIColor.systemBlue))
