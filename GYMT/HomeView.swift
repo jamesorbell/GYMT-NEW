@@ -45,15 +45,23 @@ struct HomeView: View {
                 
                 .navigationBarTitle(Text("Home"), displayMode: .inline)
             
-            .navigationBarItems(trailing:
+            .navigationBarItems(leading:
                 HStack {
-                    
                     NavigationLink(destination: ProfileDetailView(profile_detail_uid: self.$profile_detail_uid)){
                         Image(systemName: "person.crop.circle.fill")
-                        .font(.largeTitle)
+                            .font(.largeTitle)
                             .foregroundColor(Color(UIColor.systemBlue))
                     
                     }
+                }
+                
+                , trailing:
+                HStack {
+                    
+                    NavigationLink(destination: FriendsListView()){
+                        Image(systemName: "person.2.fill")
+                            .foregroundColor(Color(UIColor.systemBlue))
+                        }
                 }
             )
         }

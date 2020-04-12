@@ -160,7 +160,8 @@ struct ProfileDetailView: View {
             GroupRow()
             GroupRow()
             
-            .navigationBarTitle("Profile")
+                .navigationBarTitle("Profile")
+            
         }.onAppear{
             self.getUserData()
         }

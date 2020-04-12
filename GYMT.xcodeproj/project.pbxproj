@@ -32,6 +32,7 @@
 		03C04D0B2433A9AB002B0CB3 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C04D0A2433A9AB002B0CB3 /* SignupView.swift */; };
 		03C04D0F2433B13B002B0CB3 /* MotherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C04D0E2433B13B002B0CB3 /* MotherView.swift */; };
 		03C04D112433B214002B0CB3 /* ViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C04D102433B214002B0CB3 /* ViewRouter.swift */; };
+		03D7B3FC2443A7A600389FD2 /* FriendsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D7B3FB2443A7A600389FD2 /* FriendsListView.swift */; };
 		03E03163241D67590072F3DC /* GroupRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E03162241D67590072F3DC /* GroupRow.swift */; };
 		03E03165241D67610072F3DC /* ChallengeRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E03164241D67610072F3DC /* ChallengeRow.swift */; };
 		03E03167241D69330072F3DC /* SessionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E03166241D69330072F3DC /* SessionCard.swift */; };
@@ -106,6 +107,7 @@
 		03C04D0A2433A9AB002B0CB3 /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 		03C04D0E2433B13B002B0CB3 /* MotherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotherView.swift; sourceTree = "<group>"; };
 		03C04D102433B214002B0CB3 /* ViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRouter.swift; sourceTree = "<group>"; };
+		03D7B3FB2443A7A600389FD2 /* FriendsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsListView.swift; sourceTree = "<group>"; };
 		03E03162241D67590072F3DC /* GroupRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupRow.swift; sourceTree = "<group>"; };
 		03E03164241D67610072F3DC /* ChallengeRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeRow.swift; sourceTree = "<group>"; };
 		03E03166241D69330072F3DC /* SessionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCard.swift; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 				03E125F02422AD2E00756A88 /* CompletedChallengeRow.swift */,
 				03E03164241D67610072F3DC /* ChallengeRow.swift */,
 				033439282406E35800EFD9E3 /* HomeView.swift */,
+				03D7B3FB2443A7A600389FD2 /* FriendsListView.swift */,
 				03E125E6242264C300756A88 /* ProfileDetailView.swift */,
 				03E76062241FBF1A00FCF423 /* ChallengeDetailView.swift */,
 				03E125EC24229D5100756A88 /* ChallengeLeaderboardRow.swift */,
@@ -540,6 +543,7 @@
 				033439232406DE1600EFD9E3 /* GroupsView.swift in Sources */,
 				03E125F3242521E500756A88 /* CreateNewGroupView.swift in Sources */,
 				03B1FDA924054A1B00EE4F01 /* ContentView.swift in Sources */,
+				03D7B3FC2443A7A600389FD2 /* FriendsListView.swift in Sources */,
 				03E125ED24229D5100756A88 /* ChallengeLeaderboardRow.swift in Sources */,
 				03C04D0F2433B13B002B0CB3 /* MotherView.swift in Sources */,
 				03E76063241FBF1A00FCF423 /* ChallengeDetailView.swift in Sources */,
