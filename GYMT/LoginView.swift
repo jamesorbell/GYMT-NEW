@@ -49,6 +49,7 @@ struct LoginView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(width: 200.0,height:200)
+                        .padding(.top, -100)
                         
                         Text("Sign in to continue")
                         

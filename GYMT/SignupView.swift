@@ -68,6 +68,7 @@ struct SignupView: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: 200.0,height:200)
+                .padding(.top, -100)
                 
                 Text("Sign up to get started")
                 

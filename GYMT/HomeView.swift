@@ -47,7 +47,7 @@ struct HomeView: View {
             
             .navigationBarItems(leading:
                 HStack {
-                    NavigationLink(destination: ProfileDetailView(profile_detail_uid: self.$profile_detail_uid)){
+                    NavigationLink(destination: ProfileDetailView(profile_detail_uid: self.$profile_detail_uid, isProfileExternalUser: false)){
                         Image(systemName: "person.crop.circle.fill")
                             .font(.largeTitle)
                             .foregroundColor(Color(UIColor.systemBlue))
@@ -58,7 +58,7 @@ struct HomeView: View {
                 , trailing:
                 HStack {
                     
-                    NavigationLink(destination: FriendsListView()){
+                    NavigationLink(destination: FriendsListView(profile_detail_uid: self.$profile_detail_uid)){
                         Image(systemName: "person.2.fill")
                             .foregroundColor(Color(UIColor.systemBlue))
                         }

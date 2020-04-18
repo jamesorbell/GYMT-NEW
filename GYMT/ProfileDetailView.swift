@@ -31,7 +31,14 @@ class UserObject: ObservableObject {
 
 struct ProfileDetailView: View {
     
+    // Used to pop the view off the navigation stack if a user has deleted the user.
+    @Environment(\.presentationMode) var presentationMode
+    
+    // Fetching the user id of the current user.
     @Binding var profile_detail_uid : String
+    
+    @State var isProfileExternalUser : Bool
+    @State private var showingDeleteRequestAlert = false
     
     @State var UserFirstName : String = ""
     @State var UserLastName : String = ""
@@ -158,9 +165,67 @@ struct ProfileDetailView: View {
             
             GroupRow()
             GroupRow()
-            GroupRow()
             
-                .navigationBarTitle("Profile")
+            HStack{
+                if isProfileExternalUser {
+                    Button(action: {
+                        self.showingDeleteRequestAlert.toggle()
+                    }) {
+                    Text("Remove friend")
+                        .foregroundColor(Color(UIColor.systemRed))
+                        .padding()
+                    }
+                    .padding()
+                    .alert(isPresented: $showingDeleteRequestAlert) {
+                    Alert(title: Text("Are you sure?"),
+                          message: Text("This action cannot be undone and the user will be removed from your friends list."), primaryButton: .destructive(Text("Remove")) {
+                            // Removal of friend relationship from the database
+                            let db = Firestore.firestore()
+                            db.collection("Friends")
+                                .whereField("FromUserID", isEqualTo: self.profile_detail_uid)
+                                .whereField("ToUserID", isEqualTo: Auth.auth().currentUser!.uid)
+                            .getDocuments() { (querySnapshot, err) in
+                            if let err = err {
+                                print("Error getting documents: \(err)")
+                            } else {
+                                if let doc = querySnapshot?.documents, !doc.isEmpty {
+                                    for document in querySnapshot!.documents {
+                                        db.collection("Friends").document(document.documentID).delete() { err in
+                                            if let err = err {
+                                                print("Error removing document: \(err)")
+                                            } else {
+                                                print("Friend successfully removed!")
+                                            }
+                                        }
+                                    }
+                                    self.presentationMode.wrappedValue.dismiss()
+                                } else {
+                                    db.collection("Friends")
+                                        .whereField("FromUserID", isEqualTo: Auth.auth().currentUser!.uid)
+                                        .whereField("ToUserID", isEqualTo: self.profile_detail_uid)
+                                        .getDocuments() { (querySnapshot, err) in
+                                            if let err = err {
+                                                print("Error getting documents: \(err)")
+                                            } else {
+                                                for document in querySnapshot!.documents {
+                                                    db.collection("Friends").document(document.documentID).delete() { err in
+                                                        if let err = err {
+                                                            print("Error removing document: \(err)")
+                                                        } else {
+                                                            print("Friend successfully removed!")
+                                                        }
+                                                    }
+                                                }
+                                                self.presentationMode.wrappedValue.dismiss()
+                                            }
+                                    }
+                                }
+                            }
+                            }
+                        }, secondaryButton: .cancel())
+                    }
+                }
+            }
             
         }.onAppear{
             self.getUserData()
