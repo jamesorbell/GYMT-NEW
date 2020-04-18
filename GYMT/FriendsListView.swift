@@ -12,7 +12,7 @@ import FirebaseFirestoreSwift
 import FirebaseInstallations
 import FirebaseCoreDiagnostics
 
-struct Friend: Identifiable {
+struct Friend: Identifiable, Hashable {
     let id: String
     let FromUserID: String
     let ToUserID: String
@@ -464,7 +464,6 @@ struct FriendsListView: View {
         }
     }
 }
-
 
 struct FriendsListView_Previews: PreviewProvider {
     @State static var profile_detail_uid = "CrWgY9v1nFTfieSo04oALNhc4dp2"

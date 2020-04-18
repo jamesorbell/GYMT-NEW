@@ -10,6 +10,10 @@ import SwiftUI
 
 struct GroupDetailView: View {
     
+    @State var GroupID: String
+    @State var GroupName: String
+    @State var GroupDescription: String
+    
     let modelData3: [GroupUser] =
     [GroupUser(username: "jorbell", displayname: "James Orbell", coins: 7384),
     GroupUser(username: "anitabieda", displayname: "Anita Bieda", coins: 2837),
@@ -25,7 +29,7 @@ struct GroupDetailView: View {
                     .aspectRatio(contentMode: .fit)
                     .background(Color.black)
                     .opacity(0.5)
-                    .overlay(GroupTitleOverlay(), alignment: .bottomLeading)
+                    .overlay(GroupTitleOverlay(GroupName: GroupName, GroupDescription: GroupDescription), alignment: .bottomLeading)
                 
                 HStack{
                     Text("Lifetime Leaderboard")
@@ -111,16 +115,23 @@ struct GroupDetailView: View {
 
 struct GroupDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        GroupDetailView()
+        GroupDetailView(GroupID: "LXiKfr4LuP6MGfEPOleg", GroupName: "The Three Muskateers", GroupDescription: "Just three lads from Loughborough.")
     }
 }
 
 struct GroupTitleOverlay: View {
+    
+    @State var GroupName: String
+    @State var GroupDescription: String
+    
     var body: some View {
         VStack(alignment: .leading){
-            Text("Group Name")
+            Text(GroupName)
                 .font(.title)
                 .fontWeight(.bold)
+            Text(GroupDescription)
+                .font(.caption)
+                .fontWeight(.medium)
         }
         .padding()
         .foregroundColor(Color.white)

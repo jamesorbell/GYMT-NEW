@@ -11,6 +11,7 @@
 		033439252406DE2200EFD9E3 /* ActivityScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033439242406DE2200EFD9E3 /* ActivityScreenView.swift */; };
 		033439272406DE2B00EFD9E3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033439262406DE2B00EFD9E3 /* SettingsView.swift */; };
 		033439292406E35800EFD9E3 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033439282406E35800EFD9E3 /* HomeView.swift */; };
+		033D40A8244B473A0097F48A /* GroupRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033D40A7244B473A0097F48A /* GroupRow.swift */; };
 		034E0AF024421C2A003D1765 /* SessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 034E0AEF24421C2A003D1765 /* SessionStore.swift */; };
 		0367F25F24420CFA006A87A4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0367F25E24420CFA006A87A4 /* GoogleService-Info.plist */; };
 		0367F26024420CFA006A87A4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0367F25E24420CFA006A87A4 /* GoogleService-Info.plist */; };
@@ -32,15 +33,14 @@
 		03C04D0B2433A9AB002B0CB3 /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C04D0A2433A9AB002B0CB3 /* SignupView.swift */; };
 		03C04D0F2433B13B002B0CB3 /* MotherView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C04D0E2433B13B002B0CB3 /* MotherView.swift */; };
 		03C04D112433B214002B0CB3 /* ViewRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C04D102433B214002B0CB3 /* ViewRouter.swift */; };
+		03D5BD68244B5BE700FA4EF9 /* AddGroupParticipantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D5BD67244B5BE700FA4EF9 /* AddGroupParticipantView.swift */; };
 		03D7B3FC2443A7A600389FD2 /* FriendsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03D7B3FB2443A7A600389FD2 /* FriendsListView.swift */; };
-		03E03163241D67590072F3DC /* GroupRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E03162241D67590072F3DC /* GroupRow.swift */; };
 		03E03165241D67610072F3DC /* ChallengeRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E03164241D67610072F3DC /* ChallengeRow.swift */; };
 		03E03167241D69330072F3DC /* SessionCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E03166241D69330072F3DC /* SessionCard.swift */; };
 		03E125E7242264C300756A88 /* ProfileDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E125E6242264C300756A88 /* ProfileDetailView.swift */; };
 		03E125EB2422994E00756A88 /* GroupDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E125EA2422994E00756A88 /* GroupDetailView.swift */; };
 		03E125ED24229D5100756A88 /* ChallengeLeaderboardRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E125EC24229D5100756A88 /* ChallengeLeaderboardRow.swift */; };
 		03E125F12422AD2E00756A88 /* CompletedChallengeRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E125F02422AD2E00756A88 /* CompletedChallengeRow.swift */; };
-		03E125F3242521E500756A88 /* CreateNewGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E125F2242521E500756A88 /* CreateNewGroupView.swift */; };
 		03E76063241FBF1A00FCF423 /* ChallengeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03E76062241FBF1A00FCF423 /* ChallengeDetailView.swift */; };
 		48BE211540AD566303E882B9 /* Pods_GYMT_GYMTUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 211410C5DB7DBBB14E15EE38 /* Pods_GYMT_GYMTUITests.framework */; };
 		C28E2AD56E874F2BE85B0913 /* Pods_GYMT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9808F0FC7223B317533212EA /* Pods_GYMT.framework */; };
@@ -82,6 +82,7 @@
 		033439242406DE2200EFD9E3 /* ActivityScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityScreenView.swift; sourceTree = "<group>"; };
 		033439262406DE2B00EFD9E3 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		033439282406E35800EFD9E3 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		033D40A7244B473A0097F48A /* GroupRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupRow.swift; sourceTree = "<group>"; };
 		034E0AEF24421C2A003D1765 /* SessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStore.swift; sourceTree = "<group>"; };
 		0367F25E24420CFA006A87A4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		03B1FDA124054A1B00EE4F01 /* GYMT.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GYMT.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -107,15 +108,14 @@
 		03C04D0A2433A9AB002B0CB3 /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 		03C04D0E2433B13B002B0CB3 /* MotherView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotherView.swift; sourceTree = "<group>"; };
 		03C04D102433B214002B0CB3 /* ViewRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewRouter.swift; sourceTree = "<group>"; };
+		03D5BD67244B5BE700FA4EF9 /* AddGroupParticipantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGroupParticipantView.swift; sourceTree = "<group>"; };
 		03D7B3FB2443A7A600389FD2 /* FriendsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsListView.swift; sourceTree = "<group>"; };
-		03E03162241D67590072F3DC /* GroupRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupRow.swift; sourceTree = "<group>"; };
 		03E03164241D67610072F3DC /* ChallengeRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeRow.swift; sourceTree = "<group>"; };
 		03E03166241D69330072F3DC /* SessionCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCard.swift; sourceTree = "<group>"; };
 		03E125E6242264C300756A88 /* ProfileDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileDetailView.swift; sourceTree = "<group>"; };
 		03E125EA2422994E00756A88 /* GroupDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailView.swift; sourceTree = "<group>"; };
 		03E125EC24229D5100756A88 /* ChallengeLeaderboardRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeLeaderboardRow.swift; sourceTree = "<group>"; };
 		03E125F02422AD2E00756A88 /* CompletedChallengeRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedChallengeRow.swift; sourceTree = "<group>"; };
-		03E125F2242521E500756A88 /* CreateNewGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewGroupView.swift; sourceTree = "<group>"; };
 		03E76062241FBF1A00FCF423 /* ChallengeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChallengeDetailView.swift; sourceTree = "<group>"; };
 		211410C5DB7DBBB14E15EE38 /* Pods_GYMT_GYMTUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GYMT_GYMTUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3A6D4187C0D08340AE9DEA2F /* Pods-GYMTTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GYMTTests.release.xcconfig"; path = "Target Support Files/Pods-GYMTTests/Pods-GYMTTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -202,16 +202,16 @@
 				03C04D082433A97D002B0CB3 /* TermsAndConditionsView.swift */,
 				03C04D0624339ACA002B0CB3 /* WelcomeView.swift */,
 				03B1FDA824054A1B00EE4F01 /* ContentView.swift */,
-				03E125F2242521E500756A88 /* CreateNewGroupView.swift */,
 				03C04CFC243387DE002B0CB3 /* SettingDetailView.swift */,
 				03E03166241D69330072F3DC /* SessionCard.swift */,
-				03E03162241D67590072F3DC /* GroupRow.swift */,
 				03E125EA2422994E00756A88 /* GroupDetailView.swift */,
+				03D5BD67244B5BE700FA4EF9 /* AddGroupParticipantView.swift */,
 				03E125F02422AD2E00756A88 /* CompletedChallengeRow.swift */,
 				03E03164241D67610072F3DC /* ChallengeRow.swift */,
 				033439282406E35800EFD9E3 /* HomeView.swift */,
 				03D7B3FB2443A7A600389FD2 /* FriendsListView.swift */,
 				03E125E6242264C300756A88 /* ProfileDetailView.swift */,
+				033D40A7244B473A0097F48A /* GroupRow.swift */,
 				03E76062241FBF1A00FCF423 /* ChallengeDetailView.swift */,
 				03E125EC24229D5100756A88 /* ChallengeLeaderboardRow.swift */,
 				033439222406DE1600EFD9E3 /* GroupsView.swift */,
@@ -541,7 +541,8 @@
 				03E125E7242264C300756A88 /* ProfileDetailView.swift in Sources */,
 				033439272406DE2B00EFD9E3 /* SettingsView.swift in Sources */,
 				033439232406DE1600EFD9E3 /* GroupsView.swift in Sources */,
-				03E125F3242521E500756A88 /* CreateNewGroupView.swift in Sources */,
+				03D5BD68244B5BE700FA4EF9 /* AddGroupParticipantView.swift in Sources */,
+				033D40A8244B473A0097F48A /* GroupRow.swift in Sources */,
 				03B1FDA924054A1B00EE4F01 /* ContentView.swift in Sources */,
 				03D7B3FC2443A7A600389FD2 /* FriendsListView.swift in Sources */,
 				03E125ED24229D5100756A88 /* ChallengeLeaderboardRow.swift in Sources */,
@@ -554,7 +555,6 @@
 				03E125F12422AD2E00756A88 /* CompletedChallengeRow.swift in Sources */,
 				03C04CFD243387DE002B0CB3 /* SettingDetailView.swift in Sources */,
 				03C04D0524339AAD002B0CB3 /* LoginView.swift in Sources */,
-				03E03163241D67590072F3DC /* GroupRow.swift in Sources */,
 				03C04D0B2433A9AB002B0CB3 /* SignupView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

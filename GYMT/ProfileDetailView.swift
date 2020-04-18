@@ -153,7 +153,7 @@ struct ProfileDetailView: View {
             
             
             HStack{
-                Text("Groups")
+                Text("Public Groups")
                 .font(.headline)
                 .padding()
                 .foregroundColor(Color.white)
@@ -163,8 +163,7 @@ struct ProfileDetailView: View {
             .background(Color(UIColor.systemBlue))
             .padding(.top, -8)
             
-            GroupRow()
-            GroupRow()
+            // Load groups here
             
             HStack{
                 if isProfileExternalUser {

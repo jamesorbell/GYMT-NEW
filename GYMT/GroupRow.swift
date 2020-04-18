@@ -2,70 +2,41 @@
 //  GroupRow.swift
 //  GYMT
 //
-//  Created by James Orbell on 14/03/2020.
+//  Created by James Orbell on 18/04/2020.
 //  Copyright © 2020 James Orbell. All rights reserved.
 //
 
 import SwiftUI
+import Firebase
+import FirebaseFirestoreSwift
+import FirebaseInstallations
+import FirebaseCoreDiagnostics
 
 struct GroupRow: View {
+    
+    @State var GroupID: String
+    @State var GroupName: String
+    @State var GroupDescription: String
+    
     var body: some View {
-        NavigationLink(destination: GroupDetailView()) {
+        NavigationLink(destination: GroupDetailView(GroupID: GroupID, GroupName: GroupName, GroupDescription: GroupDescription)) {
             HStack{
                 VStack(alignment: .leading){
-                    Text("Group Name")
+                    Text(GroupName)
+                        .font(.system(size: 25))
                         .fontWeight(.bold)
-                    // List of avatars
-                    HStack{
-                        // Main avatar
-                        Image("example-avatar")
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                        .clipShape(Circle())
-                        .overlay(
-                        Circle().stroke(Color.white, lineWidth: 2))
-                        
-                        // 2nd Avatar
-                        Image("example-avatar")
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                        .clipShape(Circle())
-                        .overlay(
-                        Circle().stroke(Color.white, lineWidth: 2))
-                        
-                        // 3rd Avatar
-                        Image("example-avatar")
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                        .clipShape(Circle())
-                        .overlay(
-                        Circle().stroke(Color.white, lineWidth: 2))
-                        
-                        // 4th Avatar
-                        Image("example-avatar")
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                        .clipShape(Circle())
-                        .overlay(
-                        Circle().stroke(Color.white, lineWidth: 2))
-                    }
+                    Text("")
+                    Text(GroupDescription)
+                        .font(.caption)
+                        .fontWeight(.medium)
                 }
                 .padding()
+                .padding(.trailing, -25)
                 
                 Spacer()
                 
-                VStack{
-                    Image("example-avatar")
-                        .resizable()
-                        .frame(width: 50, height: 50)
-                        .clipShape(Circle())
-                        .overlay(
-                        Circle().stroke(Color.white, lineWidth: 2))
-                    
-                    Text("Leader Name")
-                        .font(.caption)
-                }
-                .padding()
+                Image(systemName: "chevron.right")
+                    .padding()
             }
             .background(Color(UIColor.systemPink))
             .foregroundColor(Color.white)
@@ -78,6 +49,6 @@ struct GroupRow: View {
 
 struct GroupRow_Previews: PreviewProvider {
     static var previews: some View {
-        GroupRow()
+        GroupRow(GroupID: "LXiKfr4LuP6MGfEPOleg", GroupName: "The Three Muskateers", GroupDescription: "Just three lads from Loughborough.")
     }
 }

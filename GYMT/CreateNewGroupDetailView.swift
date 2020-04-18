@@ -10,12 +10,17 @@ import SwiftUI
 
 struct CreateNewGroupDetailView: View {
     
+    // Used to pop the view off the navigation stack if a user has deleted the user.
+    @Environment(\.presentationMode) var presentationMode
+    
     @State var pickerSelectedItem = 0
     
     @State private var groupname = ""
     @State private var groupdescription = ""
     
     @State private var showingAlert = false
+    
+    @State var selection: Int? = nil
     
     var body: some View {
         NavigationView {
@@ -39,8 +44,12 @@ struct CreateNewGroupDetailView: View {
                 Section(header: Text("People")){
                     List {
                         Text("James Orbell (You)")
-                        Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/) {
-                        Text("Add participants")
+                        NavigationLink(destination: AddGroupParticipantView(), tag: 1, selection: $selection) {
+                            Button(action: {
+                                self.selection = 1
+                            }) {
+                                Text("Add participants")
+                            }
                         }
                     }
                 }
@@ -51,6 +60,7 @@ struct CreateNewGroupDetailView: View {
                     }
                     .alert(isPresented:$showingAlert) {
                         Alert(title: Text("Are you sure?"), message: Text("Please make sure you're happy with the information provided. It cannot be changed."), primaryButton: .destructive(Text("Yes, create it!")) {
+                            self.presentationMode.wrappedValue.dismiss()
                         }, secondaryButton: .cancel(Text("No! Go back")))
                     }
                 }
