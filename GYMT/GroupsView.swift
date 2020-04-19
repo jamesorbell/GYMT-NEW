@@ -17,6 +17,7 @@ struct UserGroup: Identifiable {
     let GroupName: String
     let GroupDescription: String
     let GroupVisible: Bool
+    let GroupCreatorUserID: String
 }
 
 struct GroupsView: View {
@@ -31,7 +32,7 @@ struct GroupsView: View {
                 
                 // Put group rows here.
                 ForEach(Group_Array) { UserGroup in
-                    GroupRow(GroupID: UserGroup.id, GroupName: UserGroup.GroupName, GroupDescription: UserGroup.GroupDescription)
+                    GroupRow(GroupID: UserGroup.id, GroupName: UserGroup.GroupName, GroupDescription: UserGroup.GroupDescription, GroupCreatorUserID: UserGroup.GroupCreatorUserID)
                 }
                 
                 NavigationLink(destination: CreateNewGroupDetailView(), tag: 1, selection: $selection) {
@@ -83,15 +84,14 @@ struct GroupsView: View {
                                 let GroupName = document.get("GroupName")
                                 let GroupDescription = document.get("GroupDescription")
                                 let GroupVisible = document.get("GroupVisible")
+                                let GroupCreatorUserID = document.get("GroupCreatorUserID")
                                 
                                 // All information gathered, now add group to the group array to be displayed.
-                                let usergroup: UserGroup = UserGroup(id: GroupID as! String, GroupName: GroupName as! String, GroupDescription: GroupDescription as! String, GroupVisible: GroupVisible as! Bool)
+                                let usergroup: UserGroup = UserGroup(id: GroupID as! String, GroupName: GroupName as! String, GroupDescription: GroupDescription as! String, GroupVisible: GroupVisible as! Bool, GroupCreatorUserID: GroupCreatorUserID as! String)
                                 
                                 // Add the group instance to the group array for display.
                                 self.Group_Array.append(usergroup)
                                 
-                            } else {
-                                print("Document does not exist")
                             }
                         }
                     }

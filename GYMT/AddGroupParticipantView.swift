@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Combine
 import Firebase
 import FirebaseInstallations
 import FirebaseFirestoreSwift
@@ -80,6 +81,13 @@ struct GroupParticipantRowView: View {
 
 struct AddGroupParticipantView: View {
     
+    @Binding var selectedParticipants: Set<String>
+    @Binding var selectedParticipantsDisplayNames: [String]
+    @Binding var selectedParticipantsUID: [String]
+    
+    // Used to pop the view off the navigation stack.
+    @Environment(\.presentationMode) var presentationMode2
+    
     @State private var Friend_Array: [Friend] = []
     
     @State var selectedRows = Set<String>()
@@ -91,26 +99,30 @@ struct AddGroupParticipantView: View {
                     // If current user is equal to ToUserID (A request to them, that they accepted)
                     GroupParticipantRowView(Friend: Friend, selectedItems: self.$selectedRows)
                 }
-                .navigationBarTitle(Text("Add \(selectedRows.count) participants"))
+                .navigationBarTitle(Text("Select \(selectedRows.count) participants"))
                 .onAppear{
                     self.Friend_Array = []
                     self.Load_Friends()
                 }
                 
                 // Button only appears when at least 1 person has been selected.
-                if !selectedRows.isEmpty {
-                    Button(action: {}) {
-                        HStack {
-                            Spacer()
-                            Text("Add").foregroundColor(Color.white).bold()
-                            Spacer()
-                        }
+                Button(action: {
+                    // Should pass all selected items to the view before.
+                    self.selectedParticipants = self.selectedRows
+                    self.GetDisplayNames(setOfFriends: self.selectedParticipants)
+                    self.presentationMode2.wrappedValue.dismiss()
+                }) {
+                    HStack {
+                        Spacer()
+                        Text("Done").foregroundColor(Color.white).bold()
+                        Spacer()
                     }
-                    .padding()
-                    .background(Color(UIColor.systemBlue))
-                    .cornerRadius(20)
-                    .padding()
                 }
+                .padding()
+                .background(Color(UIColor.systemBlue))
+                .cornerRadius(20)
+                .padding()
+                
                 Spacer()
             }
         }
@@ -155,10 +167,54 @@ struct AddGroupParticipantView: View {
         }
     }
     
-}
+    func GetDisplayNames(setOfFriends: Set<String>){
+        self.selectedParticipantsDisplayNames = []
+        self.selectedParticipantsUID = []
+        setOfFriends.forEach { friend in
+            var FriendDisplayName = ""
+            // Get display name
+            
+            let db = Firestore.firestore()
+            db.collection("Friends").document(friend).getDocument { (document, error) in
+                if let document = document, document.exists {
+                    if (document.get("FromUserID") as! String) == (Auth.auth().currentUser!.uid) {
+                        // If current fromUserID is the current user, then get display name of the other user.
+                        let uid = document.get("ToUserID") as! String
+                        db.collection("Users").document(uid).getDocument { (document, error) in
+                            if let document = document, document.exists {
+                                let firstname = (document.get("FirstName") as! String)
+                                let lastname = (document.get("LastName") as! String)
+                                let userID = (document.documentID)
+                                FriendDisplayName = firstname + " " + lastname
+                                self.selectedParticipantsDisplayNames.append(FriendDisplayName)
+                                self.selectedParticipantsUID.append(userID)
 
-struct AddGroupParticipantView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddGroupParticipantView()
+                            } else {
+                               print("Document does not exist")
+                            }
+                        }
+                    } else {
+                        // If the fromUserID is not the current user, then get the display name of that.
+                        let uid = document.get("FromUserID") as! String
+                        db.collection("Users").document(uid).getDocument { (document, error) in
+                            if let document = document, document.exists {
+                                let firstname = (document.get("FirstName") as! String)
+                                let lastname = (document.get("LastName") as! String)
+                                let userID = (document.documentID)
+                                FriendDisplayName = firstname + " " + lastname
+                                self.selectedParticipantsDisplayNames.append(FriendDisplayName)
+                                self.selectedParticipantsUID.append(userID)
+
+                            } else {
+                               print("Document does not exist")
+                            }
+                        }
+                    }
+                } else {
+                   print("Document does not exist")
+                }
+            }
+        }
     }
+    
 }
