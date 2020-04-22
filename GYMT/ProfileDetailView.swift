@@ -90,7 +90,7 @@ struct ProfileDetailView: View {
                 }
                 .alert(isPresented: $showingCoinAlert) {
                 Alert(title: Text("About Coins"),
-                      message: Text("Coins are used to reward you for working out. \n \n The number of coins earnt from an activity is calculated using three key metrics: \n \n ⏰ Time taken \n 🔥 Calories burnt \n ❤️ Heart rate \n \n Remember, the number of coins gained depends on the type of challenge too!"), dismissButton: .default(Text("OK")))
+                      message: Text("Coins are GYMT's primary metric and the one used to compare your exercise/workouts with your friends.\n\nTo calculate coins for each activity, GYMT uses an estimate of your maximum heart rate (from your age) and calculates an effort multiplier for the activity based on average heart rate throughout.\n\nThis effort multiplier is then applied to the length of activity to generate a coin value.\n\nThe harder and longer you work, the more coins you will generate.\n\nSo, get out there and get working 🔥"), dismissButton: .default(Text("OK")))
                 }
                 
                 Image("coin")

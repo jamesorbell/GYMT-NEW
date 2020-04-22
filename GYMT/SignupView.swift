@@ -26,6 +26,7 @@ struct SignupView: View {
     @State var error: String = ""
     @State var user: String = ""
     @State var uid: String = ""
+    @State var birthDate = Date()
     @EnvironmentObject var session: SessionStore
     
     func signUp() {
@@ -40,6 +41,7 @@ struct SignupView: View {
                 db.collection("Users").document(String((result?.user.uid)!)).setData([
                     "FirstName" : self.firstName,
                     "LastName" : self.lastName,
+                    "BirthDate" : Timestamp(date: self.birthDate),
                     "Email" : self.email,
                     "Coins" : 0,
                     "AccountCreationDate" : FieldValue.serverTimestamp(),
@@ -74,28 +76,20 @@ struct SignupView: View {
                 
                 // Input fields.
                 VStack {
-                    TextField("First name", text: $firstName)
-                        .font(.system(size: 14))
-                        .padding(12)
-                        .background(RoundedRectangle(cornerRadius: 5).strokeBorder(Color(UIColor.systemGray),lineWidth: 1))
-                    
-                    TextField("Last name", text: $lastName)
-                    .font(.system(size: 14))
-                    .padding(12)
-                    .background(RoundedRectangle(cornerRadius: 5).strokeBorder(Color(UIColor.systemGray),lineWidth: 1))
-                    .padding(.bottom, 20)
-                    
-                    TextField("Email address", text: $email)
-                        .font(.system(size: 14))
-                        .padding(12)
-                        .background(RoundedRectangle(cornerRadius: 5).strokeBorder(Color(UIColor.systemGray),lineWidth: 1))
-                    
-                    SecureField("Password", text: $password)
-                        .font(.system(size: 14))
-                        .padding(12)
-                        .background(RoundedRectangle(cornerRadius: 5).strokeBorder(Color(UIColor.systemGray),lineWidth: 1))
+                    Form{
+                        Section(header: Text("Personal details")){
+                            TextField("First name", text: $firstName)
+                            TextField("Last name", text: $lastName)
+                            DatePicker(selection: $birthDate, in: ...Date(), displayedComponents: .date) {
+                                Text("Birthday")
+                            }
+                        }
+                        Section(header: Text("Account details")){
+                            TextField("Email address", text: $email)
+                            SecureField("Password", text: $password)
+                        }
+                    }
                 }
-                .padding()
                 
                 Button(action: signUp) {
                     Text("Create account")

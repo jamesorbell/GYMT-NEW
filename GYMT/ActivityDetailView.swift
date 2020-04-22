@@ -7,8 +7,24 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseInstallations
+import FirebaseFirestoreSwift
+import FirebaseCoreDiagnostics
 
 struct ActivityDetailView: View {
+    
+    @State var ActivityID: String
+    @State var LengthHours: Int64
+    @State var LengthSeconds: Int64
+    
+    // Variables to display about the activity, populated by values using the loadActivity() method.
+    @State var MaxHeartRate: Int = 0
+    @State var AvgHeartRate: Int = 0
+    @State var Steps: Int = 0
+    @State var Calories: Int = 0
+    @State var Coins: Int = 0
+    
     var body: some View {
         VStack {
             List {
@@ -20,7 +36,14 @@ struct ActivityDetailView: View {
                         .frame(width:60)
                     
                     VStack(alignment: .leading){
-                        Text("1 Hour : 15 minutes").font(.headline)
+                        
+                        if LengthHours != 0 {
+                            Text("\(LengthHours) Hour(s) : \(LengthSeconds) Minutes")
+                                .font(.headline)
+                        } else {
+                            Text("\(LengthSeconds) Minutes")
+                                .font(.headline)
+                        }
                         Text("Time elapsed").font(.caption)
                     }.padding()
                 }
@@ -33,7 +56,7 @@ struct ActivityDetailView: View {
                         .frame(width:60)
                     
                     VStack(alignment: .leading){
-                        Text("143 bpm").font(.headline)
+                        Text("\(MaxHeartRate) bpm").font(.headline)
                         Text("Maximum heart rate").font(.caption)
                     }.padding()
                 }
@@ -46,7 +69,7 @@ struct ActivityDetailView: View {
                         .frame(width:60)
                     
                     VStack(alignment: .leading){
-                        Text("95 bpm").font(.headline)
+                        Text("\(AvgHeartRate) bpm").font(.headline)
                         Text("Average heart rate").font(.caption)
                     }.padding()
                 }
@@ -59,7 +82,7 @@ struct ActivityDetailView: View {
                         .frame(width:60)
                     
                     VStack(alignment: .leading){
-                        Text("3,400").font(.headline)
+                        Text("\(Steps)").font(.headline)
                         Text("Steps").font(.caption)
                     }.padding()
                 }
@@ -72,7 +95,7 @@ struct ActivityDetailView: View {
                         .frame(width:60)
                     
                     VStack(alignment: .leading){
-                        Text("475").font(.headline)
+                        Text("\(Calories)").font(.headline)
                         Text("Calories burnt").font(.caption)
                     }.padding()
                 }
@@ -80,7 +103,7 @@ struct ActivityDetailView: View {
                 
             HStack{
                 Spacer()
-                Text("+ 100 Coins")
+                Text("+ \(Coins) Coins")
                 .padding()
                 Image("coin")
                 .resizable()
@@ -95,13 +118,31 @@ struct ActivityDetailView: View {
                 
             Spacer()
             
+                
+            .onAppear{
+                self.loadActivity()
+            }
             .navigationBarTitle("Activity breakdown", displayMode: .inline)
         }
     }
-}
+    
+    // Called by onAppear, used to load activity information from database into variables to be displayed.
+    func loadActivity() {
+        let db = Firestore.firestore()
+        
+        let docRef = db.collection("Activities").document(self.ActivityID)
 
-struct ActivityDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        ActivityDetailView()
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                self.MaxHeartRate = document.get("AverageHeartRate") as! Int
+                self.AvgHeartRate = document.get("MaximumHeartRate") as! Int
+                self.Steps = document.get("Steps") as! Int
+                self.Calories = document.get("Calories") as! Int
+                self.Coins = document.get("Coins") as! Int
+            } else {
+                print("Activity does not exist")
+            }
+        }
     }
+    
 }

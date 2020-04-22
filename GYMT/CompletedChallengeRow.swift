@@ -9,29 +9,28 @@
 import SwiftUI
 
 struct CompletedChallengeRow: View {
+    
+    @State var GroupChallengeID: String
+    @State var ChallengeID: String
+    @State var ChallengeName: String
+    @State var StartDateString: String
+    @State var FinishDateString: String
+    
     var body: some View {
-        HStack{
-            Text("King of the Hill")
-                .font(.headline)
-            
-            Spacer()
-            
-            VStack(alignment: .leading){
-                Text("17")
-                Text("FEB")
+        NavigationLink(destination: ChallengeDetailView(ChallengeID: ChallengeID, GroupChallengeID: GroupChallengeID)){
+            HStack{
+                Text(ChallengeName)
+                    .font(.headline)
+                Spacer()
+                VStack(alignment: .leading){
+                    Text(StartDateString)
+                }
+                Text(" - ")
+                VStack(alignment: .leading){
+                    Text(FinishDateString)
+                }
             }
-            Text(" - ")
-            VStack(alignment: .leading){
-                Text("20")
-                Text("MAR")
-            }
+            .padding()
         }
-        .padding()
-    }
-}
-
-struct CompletedChallengeRow_Previews: PreviewProvider {
-    static var previews: some View {
-        CompletedChallengeRow()
     }
 }

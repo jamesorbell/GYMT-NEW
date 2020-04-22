@@ -53,19 +53,12 @@ struct LoginView: View {
                         
                         Text("Sign in to continue")
                         
-                        // Put input fields into here.
-                        VStack {
+                        
+                        Form {
                             TextField("Email address", text: $email)
-                                .font(.system(size: 14))
-                                .padding(12)
-                                .background(RoundedRectangle(cornerRadius: 5).strokeBorder(Color(UIColor.systemGray),lineWidth: 1))
                             
                             SecureField("Password", text: $password)
-                                .font(.system(size: 14))
-                                .padding(12)
-                                .background(RoundedRectangle(cornerRadius: 5).strokeBorder(Color(UIColor.systemGray),lineWidth: 1))
                         }
-                        .padding()
                         
                         Button(action: signIn) {
                             Text("Sign in")

@@ -15,16 +15,16 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             List {
-                SettingListItem()
-                SettingListItem()
-                SettingListItem()
-                SettingListItem()
                 Button(action: session.signOut) {
-                Text("Log out")
-                    .font(.headline)
-                }
+                    
+                    HStack{
+                        Text("Log out")
+                            .font(.headline)
+                        Spacer()
+                        Image(systemName: "hand.point.right.fill")
+                        }
+                    }
             }
-            
             .navigationBarTitle("Settings", displayMode: .inline)
         }
     }

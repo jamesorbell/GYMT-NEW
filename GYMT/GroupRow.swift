@@ -18,9 +18,10 @@ struct GroupRow: View {
     @State var GroupName: String
     @State var GroupDescription: String
     @State var GroupCreatorUserID: String
+    @State var GroupCreationDate: Timestamp
     
     var body: some View {
-        NavigationLink(destination: GroupDetailView(GroupID: GroupID, GroupName: GroupName, GroupDescription: GroupDescription, GroupCreatorUserID: GroupCreatorUserID)) {
+        NavigationLink(destination: GroupDetailView(GroupID: GroupID, GroupName: GroupName, GroupDescription: GroupDescription, GroupCreatorUserID: GroupCreatorUserID, GroupCreationDate: GroupCreationDate)) {
             HStack{
                 VStack(alignment: .leading){
                     Text(GroupName)
@@ -45,11 +46,5 @@ struct GroupRow: View {
             .padding(.bottom, -20)
             .padding()
         }
-    }
-}
-
-struct GroupRow_Previews: PreviewProvider {
-    static var previews: some View {
-        GroupRow(GroupID: "LXiKfr4LuP6MGfEPOleg", GroupName: "The Three Muskateers", GroupDescription: "Just three lads from Loughborough.", GroupCreatorUserID: "CrWgY9v1nFTfieSo04oALNhc4dp2")
     }
 }

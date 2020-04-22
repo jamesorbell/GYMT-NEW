@@ -39,6 +39,8 @@ struct CreateNewGroupDetailView: View {
     
     @State private var createGroupError = ""
     
+    @State private var currentUserDisplayName = ""
+    
     // Determines if alert is showing, and which alert is showing.
     @State private var showAlert = false
     @State private var activeAlert: ActiveAlert = .second
@@ -66,7 +68,7 @@ struct CreateNewGroupDetailView: View {
                 
                 Section(header: Text("People")){
                     List() {
-                        Text("James Orbell (You)")
+                        Text("\(currentUserDisplayName) (You)")
                             .fontWeight(.medium)
                         
                         ForEach(selectedParticipantsDisplayNames, id: \.self) { item in
@@ -131,7 +133,8 @@ struct CreateNewGroupDetailView: View {
                                     "GroupName": self.groupname,
                                     "GroupDescription": self.groupdescription,
                                     "GroupVisible": groupvisible,
-                                    "GroupCreatorUserID": Auth.auth().currentUser!.uid
+                                    "GroupCreatorUserID": Auth.auth().currentUser!.uid,
+                                    "GroupCreationDate": FieldValue.serverTimestamp()
                                 ]) { err in
                                     if let err = err {
                                         print("Error adding document: \(err)")
@@ -182,9 +185,29 @@ struct CreateNewGroupDetailView: View {
                 
                 }
                 
-            } .navigationBarTitle("Create a new group", displayMode: .inline)
+            }.onAppear{
+                // Call function to fetch user display name.
+                self.getCurrentUserDisplayName()
+            }
+            .navigationBarTitle("Create a new group", displayMode: .inline)
         }
     }
+    
+    func getCurrentUserDisplayName() {
+        let db = Firestore.firestore()
+        let docRef = db.collection("Users").document(Auth.auth().currentUser!.uid)
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists {
+                let firstname = document.get("FirstName") as! String
+                let lastname = document.get("LastName") as! String
+                let displayname = firstname + " " + lastname
+                self.currentUserDisplayName = displayname
+            } else {
+                print("User does not exist")
+            }
+        }
+    }
+    
 }
 
 struct CreateNewGroupDetailView_Previews: PreviewProvider {

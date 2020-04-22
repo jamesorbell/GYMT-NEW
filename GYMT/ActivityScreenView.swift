@@ -7,116 +7,187 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseInstallations
+import FirebaseFirestoreSwift
+import FirebaseCoreDiagnostics
+
+struct ActivityPreview: Identifiable {
+    let id: String // Activity ID
+    let StartNSDate: NSDate // Pass NSDate, to be reformatted later.
+    let Length: Int64 // Given length in seconds. As a 64 bit integer.
+}
 
 struct ActivityScreenView: View {
     
-    @State var pickerSelectedItem = 0
+    @State var Activity_Preview_Array: [ActivityPreview] = []
+    
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
     
     var body: some View {
         NavigationView {
             VStack {
-                HStack (spacing: 16){
-                    VStack {
-                        ZStack (alignment: .bottom) {
-                            Capsule().frame(width: 20, height: 200)
-                                .foregroundColor(Color(UIColor.systemGray5))
-                            Capsule().frame(width: 20, height: 100)
-                                .foregroundColor(Color(UIColor.systemGray))
-                                .shadow(radius: 3)
-                        }
-                        Text("Mon")
-                            .font(.caption)
-                    }
-                    VStack {
-                        ZStack (alignment: .bottom) {
-                            Capsule().frame(width: 20, height: 200)
-                                .foregroundColor(Color(UIColor.systemGray5))
-                            Capsule().frame(width: 20, height: 100)
-                                .foregroundColor(Color(UIColor.systemGray))
-                                .shadow(radius: 3)
-                        }
-                        Text("Tue")
-                            .font(.caption)
-                    }
-                    VStack {
-                        ZStack (alignment: .bottom) {
-                            Capsule().frame(width: 20, height: 200)
-                                .foregroundColor(Color(UIColor.systemGray5))
-                            Capsule().frame(width: 20, height: 100)
-                                .foregroundColor(Color(UIColor.systemGray))
-                                .shadow(radius: 3)
-                        }
-                        Text("Wed")
-                            .font(.caption)
-                    }
-                    VStack {
-                        ZStack (alignment: .bottom) {
-                            Capsule().frame(width: 20, height: 200)
-                                .foregroundColor(Color(UIColor.systemGray5))
-                            Capsule().frame(width: 20, height: 100)
-                                .foregroundColor(Color(UIColor.systemGray))
-                                .shadow(radius: 3)
-                        }
-                        Text("Thu")
-                            .font(.caption)
-                    }
-                    VStack {
-                        ZStack (alignment: .bottom) {
-                            Capsule().frame(width: 20, height: 200)
-                                .foregroundColor(Color(UIColor.systemGray5))
-                            Capsule().frame(width: 20, height: 100)
-                                .foregroundColor(Color(UIColor.systemGray))
-                                .shadow(radius: 3)
-                        }
-                        Text("Fri")
-                            .font(.caption)
-                    }
-                    VStack {
-                        ZStack (alignment: .bottom) {
-                            Capsule().frame(width: 20, height: 200)
-                                .foregroundColor(Color(UIColor.systemGray5))
-                            Capsule().frame(width: 20, height: 100)
-                                .foregroundColor(Color(UIColor.systemGray))
-                                .shadow(radius: 3)
-                        }
-                        Text("Sat")
-                            .font(.caption)
-                    }
-                    VStack {
-                        ZStack (alignment: .bottom) {
-                            Capsule().frame(width: 20, height: 200)
-                                .foregroundColor(Color(UIColor.systemGray5))
-                            Capsule().frame(width: 20, height: 100)
-                                .foregroundColor(Color(UIColor.systemGray))
-                                .shadow(radius: 3)
-                        }
-                        Text("Sun")
-                            .font(.caption)
-                    }
-                }
-                .padding()
-                .padding(.bottom, -30)
                 
-                Picker(selection: $pickerSelectedItem, label: Text("")){
-                    Text("Weekly").tag(0)
-                    Text("Monthly").tag(1)
-                    Text("Yearly").tag(2)
-                }
-                .pickerStyle(SegmentedPickerStyle())
-                .padding()
+                Text("Week Start - Week End")
+                    .font(.caption)
+                    .padding()
+                    .padding(.bottom, -40)
+                
+                HStack{
                     
-                List{
-                    ActivityListItem()
-                    ActivityListItem()
-                    ActivityListItem()
-                    ActivityListItem()
-                    ActivityListItem()
+                    // Button to change the date range of the graph back a week.
+                    Button(action: {
+                        // What to perform
+                    }) {
+                        // How the button looks
+                        Image(systemName: "chevron.left")
+                        .foregroundColor(Color(UIColor(named: "AdaptiveColor")!))
+                    }
+                    
+                    
+                    HStack (spacing: 16){
+                        VStack {
+                            ZStack (alignment: .bottom) {
+                                Capsule().frame(width: 20, height: 150)
+                                    .foregroundColor(Color(UIColor.systemGray5))
+                                Capsule().frame(width: 20, height: 100)
+                                    .foregroundColor(Color(UIColor.systemPink))
+                                    .shadow(radius: 3)
+                            }
+                            Text("Mon")
+                                .font(.caption)
+                        }
+                        VStack {
+                            ZStack (alignment: .bottom) {
+                                Capsule().frame(width: 20, height: 150)
+                                    .foregroundColor(Color(UIColor.systemGray5))
+                                Capsule().frame(width: 20, height: 100)
+                                    .foregroundColor(Color(UIColor.systemPink))
+                                    .shadow(radius: 3)
+                            }
+                            Text("Tue")
+                                .font(.caption)
+                        }
+                        VStack {
+                            ZStack (alignment: .bottom) {
+                                Capsule().frame(width: 20, height: 150)
+                                    .foregroundColor(Color(UIColor.systemGray5))
+                                Capsule().frame(width: 20, height: 10)
+                                    .foregroundColor(Color(UIColor.systemPink))
+                                    .shadow(radius: 3)
+                            }
+                            Text("Wed")
+                                .font(.caption)
+                        }
+                        VStack {
+                            ZStack (alignment: .bottom) {
+                                Capsule().frame(width: 20, height: 150)
+                                    .foregroundColor(Color(UIColor.systemGray5))
+                                Capsule().frame(width: 20, height: 60)
+                                    .foregroundColor(Color(UIColor.systemPink))
+                                    .shadow(radius: 3)
+                            }
+                            Text("Thu")
+                                .font(.caption)
+                        }
+                        VStack {
+                            ZStack (alignment: .bottom) {
+                                Capsule().frame(width: 20, height: 150)
+                                    .foregroundColor(Color(UIColor.systemGray5))
+                                Capsule().frame(width: 20, height: 125)
+                                    .foregroundColor(Color(UIColor.systemPink))
+                                    .shadow(radius: 3)
+                            }
+                            Text("Fri")
+                                .font(.caption)
+                        }
+                        VStack {
+                            ZStack (alignment: .bottom) {
+                                Capsule().frame(width: 20, height: 150)
+                                    .foregroundColor(Color(UIColor.systemGray5))
+                                Capsule().frame(width: 20, height: 75)
+                                    .foregroundColor(Color(UIColor.systemPink))
+                                    .shadow(radius: 3)
+                            }
+                            Text("Sat")
+                                .font(.caption)
+                        }
+                        VStack {
+                            ZStack (alignment: .bottom) {
+                                Capsule().frame(width: 20, height: 150)
+                                    .foregroundColor(Color(UIColor.systemGray5))
+                                Capsule().frame(width: 20, height: 50)
+                                    .foregroundColor(Color(UIColor.systemPink))
+                                    .shadow(radius: 3)
+                            }
+                            Text("Sun")
+                                .font(.caption)
+                        }
+                    }
+                    .padding()
+                    
+                    // Button to change the date range of the graph foward a week.
+                    Button(action: {
+                        // What to perform
+                    }) {
+                        // How the button looks
+                        Image(systemName: "chevron.right")
+                        .foregroundColor(Color(UIColor(named: "AdaptiveColor")!))
+                    }
+                    
+                }.padding()
+                .padding(.bottom, -20)
+                
+                HStack{
+                    Text("Your Activities")
+                    .font(.headline)
+                    .padding()
+                    .foregroundColor(Color.white)
+                    
+                    Spacer()
+                }
+                .background(Color(UIColor.systemBlue))
+                .padding(.bottom, -12)
+                
+                // List of activities.
+                List(Activity_Preview_Array) { activitypreview in
+                    ActivityListItem(ActivityPreview: activitypreview)
                 }
                 
                 Spacer()
                 
-                .navigationBarTitle("Your Activity", displayMode: .inline)
+                    .onAppear{
+                        // Fetch all users activities
+                        self.Activity_Preview_Array = []
+                        self.getActivities()
+                }
+                .navigationBarTitle("Activity Overview", displayMode: .inline)
             }
+        }
+    }
+    
+    func getActivities(){
+        let db = Firestore.firestore()
+        
+        db.collection("Activities")
+        .whereField("UserID", isEqualTo: Auth.auth().currentUser!.uid)
+        .getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print("Error getting friend requests for current user: \(err)")
+                } else {
+                    for document in querySnapshot!.documents {
+                        
+                        let starttimestamp = document.get("TimeStarted") as! Timestamp
+                        let endtimestamp = document.get("TimeFinished") as! Timestamp
+                        let length = (endtimestamp.seconds) - (starttimestamp.seconds)
+                        
+                        let startdate = starttimestamp.dateValue() // Converts timestamp to NSDate value. Some precision lost, but not nearly enough to be worried about.
+                        
+                        let activity: ActivityPreview = ActivityPreview(id: (document.documentID), StartNSDate: startdate as NSDate, Length: length)
+                        
+                        self.Activity_Preview_Array.append(activity)
+                    }
+                }
         }
     }
 }
@@ -128,17 +199,43 @@ struct ActivityScreenView_Previews: PreviewProvider {
 }
 
 struct ActivityListItem: View {
+    
+    var ActivityPreview: ActivityPreview
+    
+    @State var lengthinseconds: (Int64, Int64) = (0,0)
+    @State var DateString: String = ""
+    @State var YearString: String = ""
+    
     var body: some View {
-        NavigationLink(destination: ActivityDetailView()) {
+        NavigationLink(destination: ActivityDetailView(ActivityID: ActivityPreview.id, LengthHours: lengthinseconds.0, LengthSeconds: lengthinseconds.1)) {
             HStack{
                 VStack{
-                    Text("19").font(.caption)
-                    Text("FEB").font(.caption)
-                }
-                Text("1 Hour : 15 Minutes")
-                    .font(.headline)
+                    Text(DateString).font(.caption)
+                    Text(YearString).font(.caption)
+                }.padding()
+                // If activity longer than an hour:
+                if lengthinseconds.0 != 0 {
+                    Text("\(lengthinseconds.0) Hour(s) : \(lengthinseconds.1) Minutes")
                     .padding()
+                } else {
+                    Text("\(lengthinseconds.1) Minutes")
+                    .padding()
+                }
             }
+        }.onAppear{
+            // Find the minutes and hours of each activity.
+            self.secondsToHoursMinutes()
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MMM d"
+            self.DateString = dateFormatter.string(from: self.ActivityPreview.StartNSDate as Date)
+            dateFormatter.dateFormat = "y"
+            self.YearString = dateFormatter.string(from: self.ActivityPreview.StartNSDate as Date)
         }
     }
+    
+    // Function to return the minutes and hours of each activity.
+    func secondsToHoursMinutes() {
+        self.lengthinseconds = ((ActivityPreview.Length / 3600), ((ActivityPreview.Length % 3600) / 60))
+    }
+    
 }

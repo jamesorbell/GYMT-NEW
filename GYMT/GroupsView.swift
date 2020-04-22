@@ -18,40 +18,43 @@ struct UserGroup: Identifiable {
     let GroupDescription: String
     let GroupVisible: Bool
     let GroupCreatorUserID: String
+    let GroupCreationDate: Timestamp
 }
 
 struct GroupsView: View {
     
     @State var selection: Int? = nil
     
-    @State var Group_Array: [UserGroup] = []
+    // Bug with scroll view, requires at least one element in the array if it contains a ForEach to loop an array.
+    @State var Group_Array: [UserGroup] = [UserGroup(id: "", GroupName: "", GroupDescription: "", GroupVisible: true, GroupCreatorUserID: "", GroupCreationDate: Timestamp())]
     
     var body: some View {
         NavigationView {
-            VStack{
-                
-                // Put group rows here.
-                ForEach(Group_Array) { UserGroup in
-                    GroupRow(GroupID: UserGroup.id, GroupName: UserGroup.GroupName, GroupDescription: UserGroup.GroupDescription, GroupCreatorUserID: UserGroup.GroupCreatorUserID)
-                }
-                
-                NavigationLink(destination: CreateNewGroupDetailView(), tag: 1, selection: $selection) {
-                    Button(action: {
-                        self.selection = 1
-                    }) {
-                        HStack {
-                            Spacer()
-                            Text("Create new group").foregroundColor(Color.white).bold()
-                            Spacer()
-                        }
+            ScrollView(.vertical){
+                VStack{
+                    // Put group rows here.
+                    ForEach(Group_Array) { UserGroup in
+                        GroupRow(GroupID: UserGroup.id, GroupName: UserGroup.GroupName, GroupDescription: UserGroup.GroupDescription, GroupCreatorUserID: UserGroup.GroupCreatorUserID, GroupCreationDate: UserGroup.GroupCreationDate)
                     }
-                    .padding()
-                    .background(Color(UIColor.systemBlue))
-                    .cornerRadius(20)
-                    .padding()
+                    
+                    NavigationLink(destination: CreateNewGroupDetailView(), tag: 1, selection: $selection) {
+                        Button(action: {
+                            self.selection = 1
+                        }) {
+                            HStack {
+                                Spacer()
+                                Text("Create new group").foregroundColor(Color.white).bold()
+                                Spacer()
+                            }
+                        }
+                        .padding()
+                        .background(Color(UIColor.systemBlue))
+                        .cornerRadius(20)
+                        .padding()
+                    }
+                    
+                    Spacer()
                 }
-                
-                Spacer()
             }
             .navigationBarTitle("Your Groups", displayMode: .inline)
             .onAppear{
@@ -85,9 +88,10 @@ struct GroupsView: View {
                                 let GroupDescription = document.get("GroupDescription")
                                 let GroupVisible = document.get("GroupVisible")
                                 let GroupCreatorUserID = document.get("GroupCreatorUserID")
+                                let GroupCreationDate = document.get("GroupCreationDate")
                                 
                                 // All information gathered, now add group to the group array to be displayed.
-                                let usergroup: UserGroup = UserGroup(id: GroupID as! String, GroupName: GroupName as! String, GroupDescription: GroupDescription as! String, GroupVisible: GroupVisible as! Bool, GroupCreatorUserID: GroupCreatorUserID as! String)
+                                let usergroup: UserGroup = UserGroup(id: GroupID as! String, GroupName: GroupName as! String, GroupDescription: GroupDescription as! String, GroupVisible: GroupVisible as! Bool, GroupCreatorUserID: GroupCreatorUserID as! String, GroupCreationDate: GroupCreationDate as! Timestamp)
                                 
                                 // Add the group instance to the group array for display.
                                 self.Group_Array.append(usergroup)
