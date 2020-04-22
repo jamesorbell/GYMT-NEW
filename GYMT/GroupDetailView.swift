@@ -157,6 +157,7 @@ struct GroupDetailView: View {
                         Text("None")
                         Spacer()
                     }
+                .padding()
                 } else {
                     ScrollView(.vertical){
                         HStack(spacing: 10){

@@ -28,22 +28,13 @@ struct ActivityScreenView: View {
         NavigationView {
             VStack {
                 
-                Text("Week Start - Week End")
+                Text("This Week")
                     .font(.caption)
                     .padding()
                     .padding(.bottom, -40)
                 
                 HStack{
-                    
-                    // Button to change the date range of the graph back a week.
-                    Button(action: {
-                        // What to perform
-                    }) {
-                        // How the button looks
-                        Image(systemName: "chevron.left")
-                        .foregroundColor(Color(UIColor(named: "AdaptiveColor")!))
-                    }
-                    
+                    Spacer()
                     
                     HStack (spacing: 16){
                         VStack {
@@ -126,14 +117,7 @@ struct ActivityScreenView: View {
                     }
                     .padding()
                     
-                    // Button to change the date range of the graph foward a week.
-                    Button(action: {
-                        // What to perform
-                    }) {
-                        // How the button looks
-                        Image(systemName: "chevron.right")
-                        .foregroundColor(Color(UIColor(named: "AdaptiveColor")!))
-                    }
+                    Spacer()
                     
                 }.padding()
                 .padding(.bottom, -20)

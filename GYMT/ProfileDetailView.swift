@@ -20,16 +20,17 @@ struct Activity: Identifiable {
 class UserObject: ObservableObject {
     @Published var UserFirstName: String
     @Published var UserLastName: String
-    @Published var UserCoins: Int
     
-    init(firstName: String, lastName: String, coins: Int){
+    init(firstName: String, lastName: String){
         UserFirstName = firstName
         UserLastName = lastName
-        UserCoins = coins
     }
 }
 
 struct ProfileDetailView: View {
+    
+    // Bug with scroll view, requires at least one element in the array if it contains a ForEach to loop an array.
+    @State var Group_Array: [UserGroup] = [UserGroup(id: "", GroupName: "", GroupDescription: "", GroupVisible: true, GroupCreatorUserID: "", GroupCreationDate: Timestamp())]
     
     // Used to pop the view off the navigation stack if a user has deleted the user.
     @Environment(\.presentationMode) var presentationMode
@@ -40,16 +41,12 @@ struct ProfileDetailView: View {
     @State var isProfileExternalUser : Bool
     @State private var showingDeleteRequestAlert = false
     
-    @State var UserFirstName : String = ""
-    @State var UserLastName : String = ""
-    @State var UserCoins : Int = 0
-
-    let modelData: [Activity] =
-        [Activity(day_no: 18, day_name: "FEB", activity_length: "1 Hour : 20 Minutes"),
-        Activity(day_no: 17, day_name: "FEB", activity_length: "2 Hours : 5 Minutes"),
-        Activity(day_no: 13, day_name: "MAR", activity_length: "48 Minutes"),
-        Activity(day_no: 09, day_name: "SEP", activity_length: "1 Hour : 14 Minutes"),
-        Activity(day_no: 14, day_name: "DEC", activity_length: "1 Hour : 43 Minutes")]
+    @State var UserFirstName: String = ""
+    @State var UserLastName: String = ""
+    @State var UserCoins: Int = 0
+    
+    @State var UserFriendCount: Int = 0
+    @State var UserGroupCount: Int = 0
     
     @State private var showingCoinAlert = false
     
@@ -60,22 +57,20 @@ struct ProfileDetailView: View {
                     .fontWeight(.heavy)
                     .font(.largeTitle)
                 Spacer()
-                Image("example-avatar")
-                .resizable()
-                    .frame(width: 75, height: 75)
-                .clipShape(Circle())
             }
             .padding()
+            .padding(.top, 15)
+            .padding(.bottom, 15)
             
             HStack{
                 VStack(alignment: .leading) {
-                    Text("43")
+                    Text("\(UserFriendCount)")
                         .fontWeight(.heavy)
                     Text("Friends")
                 }.padding()
                 
                 VStack(alignment: .leading) {
-                    Text("12")
+                    Text("\(UserGroupCount)")
                         .fontWeight(.heavy)
                     Text("Groups")
                 }.padding()
@@ -113,44 +108,13 @@ struct ProfileDetailView: View {
                 Spacer()
             }
             .background(Color(UIColor.systemBlue))
-            .padding(.bottom, -12)
             
             HStack{
-                Image("")
-            }
-            
-            HStack{
-                Text("Recent Activity")
-                .font(.headline)
-                .padding()
-                .foregroundColor(Color.white)
-                
+                Spacer()
+                Text("None")
                 Spacer()
             }
-            .background(Color(UIColor.systemBlue))
-            .padding(.bottom, -12)
-            
-            // Iterate through list to generate the leaderboard according to current points within the challenge. However, currently just points to an external view (need to include variables to parse through etc in the future)
-
-            List(modelData){ Activity in
-                HStack{
-                    VStack(alignment: .leading){
-                        Text("\(Activity.day_no)")
-                        Text(Activity.day_name)
-                    }.padding()
-                    
-                    Spacer()
-                    
-                    Text(Activity.activity_length)
-                        .fontWeight(.bold)
-                        .padding(.trailing, 20)
-                    
-                }
-                .padding(.top, -10)
-                .padding(.bottom, -10)
-            }
-            .frame(height: 200)
-            
+            .padding()
             
             HStack{
                 Text("Public Groups")
@@ -161,9 +125,21 @@ struct ProfileDetailView: View {
                 Spacer()
             }
             .background(Color(UIColor.systemBlue))
-            .padding(.top, -8)
             
             // Load groups here
+            if Group_Array.isEmpty {
+                HStack{
+                    Spacer()
+                    Text("None")
+                    Spacer()
+                }
+            .padding()
+            } else {
+                // Put group rows here.
+                ForEach(Group_Array) { UserGroup in
+                    GroupRow(GroupID: UserGroup.id, GroupName: UserGroup.GroupName, GroupDescription: UserGroup.GroupDescription, GroupCreatorUserID: UserGroup.GroupCreatorUserID, GroupCreationDate: UserGroup.GroupCreationDate)
+                }
+            }
             
             HStack{
                 if isProfileExternalUser {
@@ -228,27 +204,122 @@ struct ProfileDetailView: View {
             
         }.onAppear{
             self.getUserData()
+            self.Group_Array = []
+            self.getUserGroups()
         }
     }
     
     func getUserData(){
         let db = Firestore.firestore()
 
+        // Get user information - Firstname and lastname.
         db.collection("Users").document(self.profile_detail_uid).getDocument { (document, error) in
             if let document = document, document.exists {
                let firstName = document.get("FirstName") as! String
                let lastName = document.get("LastName") as! String
-               let coins = document.get("Coins") as! Int
 
-                let userdata = UserObject(firstName: firstName, lastName: lastName, coins: coins)
+                let userdata = UserObject(firstName: firstName, lastName: lastName)
                 self.UserFirstName = userdata.UserFirstName
                 self.UserLastName = userdata.UserLastName
-                self.UserCoins = userdata.UserCoins
 
             } else {
                print("Document does not exist")
 
             }
+        }
+        
+        // Get user coin value
+        db.collection("Activities")
+            .whereField("UserID", isEqualTo: self.profile_detail_uid)
+            .getDocuments() { (querySnapshot, err) in
+                    if let err = err {
+                        print("Error getting documents: \(err)")
+                    } else {
+                        var coincounter: Int = 0
+                        for document in querySnapshot!.documents {
+                            let coins = document.get("Coins") as! Int
+                            coincounter = coincounter + coins
+                        }
+                        self.UserCoins = coincounter
+                    }
+            }
+        
+        // Get user friend value.
+        
+        // Check friends that are confirmed, where the user in detail sent the request.
+        db.collection("Friends")
+            .whereField("FromUserID", isEqualTo: self.profile_detail_uid)
+            .whereField("AcceptedStatus", isEqualTo: true)
+            .getDocuments() { (querySnapshot, err) in
+                    if let err = err {
+                        print("Error getting documents: \(err)")
+                    } else {
+                        for _ in querySnapshot!.documents {
+                            self.UserFriendCount = self.UserFriendCount + 1
+                        }
+                    }
+            }
+        
+        // Check friends that are confirmed, where the user in detail received the request.
+        db.collection("Friends")
+            .whereField("ToUserID", isEqualTo: self.profile_detail_uid)
+            .whereField("AcceptedStatus", isEqualTo: true)
+            .getDocuments() { (querySnapshot, err) in
+                    if let err = err {
+                        print("Error getting documents: \(err)")
+                    } else {
+                        for _ in querySnapshot!.documents {
+                            self.UserFriendCount = self.UserFriendCount + 1
+                        }
+                    }
+            }
+        
+    }
+    
+    func getUserGroups(){
+        // Get users public groups, as well as the group count.
+        let db = Firestore.firestore()
+        db.collection("Groups-Users")
+            .whereField("UserID", isEqualTo: self.profile_detail_uid)
+            .getDocuments() { (querySnapshot, err) in
+                if let err = err {
+                    print("Database error: \(err)")
+                } else {
+                    // No database error, proceed.
+                    for document in querySnapshot!.documents {
+                        // Get group ID from Group-User table.
+                        let GroupID = document.get("GroupID") as! String
+                        
+                        // Need to find out more information about the group, perform another query for this.
+                        let docRef = db.collection("Groups").document(GroupID)
+                        
+                        // Each relationship between a group and the user in detail increments the group count by one.
+                        self.UserGroupCount = self.UserGroupCount + 1
+                        
+                        docRef.getDocument { (document, error) in
+                            if let document = document, document.exists {
+                                
+                                // As this is a profile detail view, it only shows up public groups. Check for this below.
+                                let GroupVisible = document.get("GroupVisible") as! Bool
+                                
+                                if GroupVisible {
+                                    // Group is public, then display it. If not, don't add and move on.
+                                    let GroupName = document.get("GroupName") as! String
+                                    let GroupDescription = document.get("GroupDescription") as! String
+                                    let GroupCreatorUserID = document.get("GroupCreatorUserID") as! String
+                                    let GroupCreationDate = document.get("GroupCreationDate") as! Timestamp
+                                    
+                                    // All information gathered, now add group to the group array to be displayed.
+                                    let usergroup: UserGroup = UserGroup(id: GroupID, GroupName: GroupName, GroupDescription: GroupDescription, GroupVisible: GroupVisible, GroupCreatorUserID: GroupCreatorUserID, GroupCreationDate: GroupCreationDate)
+                                    
+                                    // Add the group instance to the group array for display.
+                                    self.Group_Array.append(usergroup)
+                                }
+                            }
+                        }
+                    }
+                }
+                
         }
     }
     
